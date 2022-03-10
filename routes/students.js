@@ -6,13 +6,13 @@ const Student = require('../models/student')
 router.post('/change', async (req, res) => {
     data = req.body
     console.log(data)
+    console.log(data["UID"])
     // data=JSON.parse(data)
     try {
-        const student = await Student.find({"Patient_ID":data["Patient_ID"]})
-        for (entry in data) {
-            //if (entry == "Patient ID") continue;
-            student[0][entry] = data[entry]
-        }
+        const student = await Student.find({ "UID": data["UID"] })
+        // for (entry in data) {
+        //     student[0][entry] = data[entry]
+        // }
         console.log(student)
         const a1 = await student[0].save()
         res.json(a1)
@@ -24,17 +24,18 @@ router.post('/change', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-    console.log(req.body.Patient_ID)
+    console.log(req.body.UID)
     const student = new Student({
-        "Patient_Name": req.body.Patient_Name,
-        "Patient_ID": req.body.Patient_ID,
-        "Blood_Group": req.body.Blood_Group,
-        "Patient_Contact_Number": req.body.Patient_Contact_Number,
-        "Name_of_Emergency_Contact": req.body.Name_of_Emergency_Contact,
-        "Emergency_Contact_Number": req.body.Emergency_Contact_Number,
-        "Significant_Medical_History": req.body.Significant_Medical_History,
-        "Drug_Allergies": req.body.Drug_Allergies,
-        "Address": req.body.Address
+        Name: req.body.Name,
+        UID: req.body.UID,
+        BloodGroup: req.body.BloodGroup,
+        Age: req.body.Age,
+        Gender: req.body.Gender,
+        ContactNumber: req.body.ContactNumber,
+        EmergencyContactName: req.body.EmergencyContactName,
+        EmergencyContactNumber: req.body.EmergencyContactNumber,
+        Allergies: req.body.Allergies,
+        Address: req.body.Address
     })
     console.log(student)
     try {
